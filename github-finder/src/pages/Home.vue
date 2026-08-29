@@ -8,7 +8,7 @@
 
         <Search :value="search" placeholder="Type username..." @search="search = $event" />
         <!-- <p>{{search}}</p> -->
-        <button class="btn btnPrimary" @click="getRepos">
+        <button class="btn btnPrimary" @click="getSearch">
           <span v-if="!repos">Search</span>
           <span v-else>Search Again</span>
         </button>
@@ -41,6 +41,7 @@ export default {
     return {
       search: "",
       error: null,
+      user: null,
       repos: null,
     };
   },
@@ -60,6 +61,27 @@ export default {
           this.error = "Can`t Take My Hands Off You";
         });
     },
+    async getSearch() {
+      try {
+        // Выполняем оба запроса параллельно
+        const [reposResponse, userResponse] = await Promise.all([
+          axios.get(`https://api.github.com/users/${this.search}`),
+          axios.get(`https://api.github.com/users/${this.search}/repos`),
+        ]);
+
+        console.log('Repos:', reposResponse.data);
+        console.log('User:', userResponse.data);
+
+        this.user = userResponse.data;
+        this.repos = reposResponse.data;
+        this.error = null;
+      } catch (err) {
+        console.error(err);
+        this.repos = null;
+        this.user = null;
+        this.error = "Can't Take My Hands Off You";
+      }
+    }
   },
 };
 </script>
