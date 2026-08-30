@@ -81,7 +81,7 @@ export default {
     getNotify() {
       this.loading = true
       axios
-        .get('http://luxors.net/vue-pro/api/notify/notifyApi.php')
+        .get('http://luxors.info/vue-pro-api/api/notify/notifyApi.php')
         .then(response => {
           let res = response.data.notify,
             messages = [],
