@@ -1,24 +1,24 @@
 export default {
 	state: {
 		notes: [
-			// {
-			// 	title: 'First Note',
-			// 	priority: 'normal',
-			// 	descr: 'Description for first note',
-			// 	date: new Date(Date.now()).toLocaleString()
-			// },
-			// {
-			// 	title: 'Second Note',
-			// 	priority: 'medium',
-			// 	descr: 'Description for second note',
-			// 	date: new Date(Date.now()).toLocaleString()
-			// },
-			// {
-			// 	title: 'Third Note',
-			// 	priority: 'hight',
-			// 	descr: 'Description for third note',
-			// 	date: new Date(Date.now()).toLocaleString()
-			// }
+			{
+				title: 'First Note',
+				priority: 'normal',
+				descr: 'Description for first note',
+				date: new Date(Date.now()).toLocaleString()
+			},
+			{
+				title: 'Second Note',
+				priority: 'medium',
+				descr: 'Description for second note',
+				date: new Date(Date.now()).toLocaleString()
+			},
+			{
+				title: 'Third Note',
+				priority: 'hight',
+				descr: 'Description for third note',
+				date: new Date(Date.now()).toLocaleString()
+			}
 		]
 	},
 	mutations: {
