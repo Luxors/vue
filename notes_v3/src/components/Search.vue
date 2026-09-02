@@ -26,7 +26,7 @@ export interface Props {
 }
 
 defineProps<Props>();
-defineEmits(['update:modelValue'])
+defineEmits(['update:modelValue']);
 </script>
 
 <template>
@@ -46,16 +46,29 @@ defineEmits(['update:modelValue'])
           stroke-linejoin="round"
           class="feather feather-search"
         >
-          <circle cx="11" cy="11" r="8"></circle>
-          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          <circle
+            cx="11"
+            cy="11"
+            r="8"
+          ></circle>
+          <line
+            x1="21"
+            y1="21"
+            x2="16.65"
+            y2="16.65"
+          ></line>
         </svg>
       </div>
     </div>
     <!-- Search input -->
-    <input :value="modelValue" type="text" :placeholder="placeholder" @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)" />
+    <input
+      :value="modelValue"
+      type="text"
+      :placeholder="placeholder"
+      @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
+    />
   </div>
 </template>
-
 
 <style scoped>
 svg {

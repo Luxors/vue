@@ -27,38 +27,48 @@ export interface Props {
 
 defineProps<Props>();
 
+const emit = defineEmits(['remove']);
+
 function removeNote(index: number) {
-  console.log(`Note id - ${index} removed`);
+  // console.log(`Note id - ${index} removed`);
+  emit('remove', index);
 }
 </script>
-
 
 <template>
   <!-- note list -->
   <div class="notes">
-    <div class="note" :class="{ full: !grid }" v-for="(note, index) in notes" :key="index">
-      <div class="note-header" :class="{ full: !grid }">
+    <article
+      v-for="(note, index) in notes"
+      :key="index"
+      class="note"
+      :class="{ full: !grid }"
+    >
+      <div
+        class="note-header"
+        :class="{ full: !grid }"
+      >
         <p class="note-caption">
           {{ note.title }}
           <span
             class="note-priority"
-            :class="{
-              'is-normal': notes[index]?.priority == 'normal',
-              'is-medium': notes[index]?.priority == 'medium',
-              'is-high': notes[index]?.priority == 'high',
-            }"
+            :class="`is-${note.priority}`"
           />
         </p>
-        <button type="button" @click="removeNote(index)">x</button>
+        <button
+          type="button"
+          @click="removeNote(index)"
+        >
+          x
+        </button>
       </div>
       <div class="note-body">
         <p>{{ note.description }}</p>
         <span>{{ note.date }}</span>
       </div>
-    </div>
+    </article>
   </div>
 </template>
-
 
 <style lang="scss">
 .notes {
@@ -144,7 +154,7 @@ function removeNote(index: number) {
 .is-medium {
   background-color: green;
 }
-.is-hight {
+.is-high {
   background-color: red;
 }
 </style>

@@ -6,14 +6,20 @@ export interface Props {
 }
 
 defineProps<Props>();
-defineEmits(['update:modelValue'])
+defineEmits(['update:modelValue']);
 </script>
 
 <template>
-	<span>
-		<input type="radio" :id="caption" name="priority" :value="val" @change="$emit('update:modelValue', val)">
-		<label :for="caption">{{ caption }}</label>
-	</span>
+  <span>
+    <input
+      type="radio"
+      :id="caption"
+      name="priority"
+      :value="val"
+      @change="$emit('update:modelValue', val)"
+    />
+    <label :for="caption">{{ caption }}</label>
+  </span>
 </template>
 
 <style lang="scss" scoped>
@@ -36,5 +42,3 @@ label {
   cursor: pointer;
 }
 </style>
-
-
