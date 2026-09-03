@@ -16,6 +16,7 @@ defineEmits(['update:modelValue']);
       :id="caption"
       name="priority"
       :value="val"
+      :checked="modelValue === val"
       @change="$emit('update:modelValue', val)"
     />
     <label :for="caption">{{ caption }}</label>

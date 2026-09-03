@@ -19,7 +19,7 @@ const title = ref('Notes App');
 const message = ref<string | null>(null);
 const grid = ref(true);
 const search = ref('');
-const note = ref<Note>({
+const newNote = ref<Note>({
   title: '',
   priority: 'normal',
   description: '',
@@ -42,10 +42,10 @@ const filteredNotes = computed(() => {
 });
 
 function addNote() {
-  const { title, priority, description } = note.value;
+  const { title, priority, description } = newNote.value;
+  console.log(title, priority, description);
 
   if (!title) {
-    console.log(title);
     message.value = 'title can`t be blank!';
     return false;
   }
@@ -56,10 +56,10 @@ function addNote() {
     description,
   });
 
-  message.value = null
-  note.value.title = ''
-  note.value.priority = 'normal'
-  note.value.description = ''
+  message.value = null;
+  newNote.value.title = '';
+  newNote.value.priority = 'normal';
+  newNote.value.description = '';
 }
 
 function removeNote(index: number) {
@@ -86,7 +86,7 @@ function removeNote(index: number) {
 
           <!-- new note -->
           <NewNote
-            :note="note"
+            v-model="newNote"
             @addNote="addNote"
           />
 

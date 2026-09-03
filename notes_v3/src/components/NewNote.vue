@@ -1,33 +1,23 @@
 <script setup lang="ts">
-import { reactive, watch } from 'vue';
+import { computed } from 'vue';
 
 import type { Note } from '@/types/note';
 
 import Radio from '@/components/Radio.vue';
 
 export interface Props {
-  note: Note;
+  // note: Note;
+  modelValue: Note;
 }
 
 const props = defineProps<Props>();
 
-const emit = defineEmits(['addNote']);
+const emit = defineEmits(['update:modelValue', 'addNote']);
 
-const newNote = reactive({
-  title: props.note.title,
-  description: props.note.description,
-  priority: props.note.priority,
+const newNote = computed({
+  get: () => props.modelValue,
+  set: (value) => emit('update:modelValue', value),
 });
-
-watch(
-  () => props.note,
-  (note: Note) => {
-    newNote.title = note.title;
-    newNote.description = note.description;
-    newNote.priority = note.priority;
-  },
-  { deep: true },
-);
 
 function addNote() {
   // console.log(newNote);
