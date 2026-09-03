@@ -6,7 +6,6 @@ import type { Note } from '@/types/note';
 import Radio from '@/components/Radio.vue';
 
 export interface Props {
-  // note: Note;
   modelValue: Note;
 }
 
@@ -20,7 +19,6 @@ const newNote = computed({
 });
 
 function addNote() {
-  // console.log(newNote);
   emit('addNote', { ...newNote });
 }
 </script>

@@ -1,25 +1,4 @@
 <script setup lang="ts">
-// export default {
-//   props: {
-//     value: {
-//       type: String,
-//       required: true,
-//     },
-//     placeholder: {
-//       type: String,
-//       default: 'Search',
-//     },
-//   },
-//   data() {
-//     return { search: this.value };
-//   },
-//   watch: {
-//     search(val) {
-//       // console.log(val)
-//       this.$emit('search', val);
-//     },
-//   },
-// };
 import IconSearch from '@/components/icons/IconSearch.vue';
 
 export interface Props {

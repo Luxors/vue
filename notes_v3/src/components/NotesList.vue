@@ -1,23 +1,4 @@
 <script setup lang="ts">
-// export default {
-//   props: {
-//     notes: {
-//       type: Array,
-//       required: true,
-//     },
-//     grid: {
-//       type: Boolean,
-//       required: true,
-//     },
-//   },
-//   methods: {
-//     removeNote(index) {
-//       console.log(`Note id - ${index} removed`);
-//       this.$emit('remove', index);
-//       // this.$store.dispatch('removeNote', index)
-//     },
-//   },
-// };
 import type { Note } from '@/types/note';
 
 export interface Props {
@@ -26,11 +7,9 @@ export interface Props {
 }
 
 defineProps<Props>();
-
 const emit = defineEmits(['remove']);
 
 function removeNote(index: number) {
-  // console.log(`Note id - ${index} removed`);
   emit('remove', index);
 }
 </script>
