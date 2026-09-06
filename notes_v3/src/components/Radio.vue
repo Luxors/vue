@@ -10,8 +10,9 @@ defineEmits(['update:modelValue']);
 </script>
 
 <template>
-  <span>
+  <div class="radio">
     <input
+      class="radio__input"
       type="radio"
       :id="caption"
       name="priority"
@@ -19,27 +20,10 @@ defineEmits(['update:modelValue']);
       :checked="modelValue === val"
       @change="$emit('update:modelValue', val)"
     />
-    <label :for="caption">{{ caption }}</label>
-  </span>
+    <label class="radio__label" :for="caption">{{ caption }}</label>
+  </div>
 </template>
 
 <style lang="scss" scoped>
-span:not(:last-child) {
-  margin-right: 15px;
-}
-input {
-  display: inline-block;
-  vertical-align: middle;
-  width: auto;
-  margin-right: 5px;
-  margin-bottom: 0;
-  cursor: pointer;
-}
-label {
-  display: inline-block;
-  vertical-align: middle;
-  margin-bottom: 0;
-  line-height: 1;
-  cursor: pointer;
-}
+@use '@/assets/styles/radio.scss';
 </style>

@@ -1,0 +1,21 @@
+.radio {
+  display: inline-flex;
+  align-items: center;
+
+  &__input {
+    display: inline-block;
+    vertical-align: middle;
+    width: auto;
+    margin-right: 5px;
+    margin-bottom: 0;
+    cursor: pointer;
+  }
+
+  &__label {
+    display: inline-block;
+    vertical-align: middle;
+    margin-bottom: 0;
+    line-height: 1;
+    cursor: pointer;
+  }
+}

@@ -25,7 +25,7 @@ function addNote() {
 
 <template>
   <!-- new note -->
-  <div class="new-note">
+  <form class="new-note">
     <p class="input-wrap">
       <label for="title">Title</label>
       <input
@@ -43,29 +43,32 @@ function addNote() {
       ></textarea>
     </p>
 
-    <fieldset class="new-note__priority">
-      <legend>Priority</legend>
+    <fieldset class="new-note-priority">
+      <legend class="new-note-priority__legend">Priority</legend>
 
-      <Radio
-        v-model="newNote.priority"
-        val="normal"
-        caption="Normal"
-      />
+      <div class="new-note-priority__inputs">
+        <Radio
+          v-model="newNote.priority"
+          val="normal"
+          caption="Normal"
+        />
 
-      <Radio
-        v-model="newNote.priority"
-        val="medium"
-        caption="Medium"
-      />
+        <Radio
+          v-model="newNote.priority"
+          val="medium"
+          caption="Medium"
+        />
 
-      <Radio
-        v-model="newNote.priority"
-        val="high"
-        caption="High"
-      />
+        <Radio
+          v-model="newNote.priority"
+          val="high"
+          caption="High"
+        />
+      </div>
     </fieldset>
 
     <button
+      type="button"
       class="btn btnPrimary"
       @click="addNote"
     >
@@ -73,22 +76,30 @@ function addNote() {
     </button>
 
     <!-- <div>Priority: {{ note.priority }}</div> -->
-  </div>
+  </form>
 </template>
 
 <style lang="scss">
 .new-note {
   text-align: center;
+
+  .input-wrap {
+    margin-bottom: 30px;
+  }
 }
-.input-wrap {
-  margin-bottom: 30px;
-}
-.new-note__priority {
+.new-note-priority {
   margin-bottom: 50px;
   border: 0;
 
-  legend {
+  &__legend {
     margin-bottom: 10px;
+  }
+
+  &__inputs {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
   }
 }
 </style>

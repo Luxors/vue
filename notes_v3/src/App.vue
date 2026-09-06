@@ -7,7 +7,7 @@ import IconGrid from '@/components/icons/IconGrid.vue';
 import IconTile from '@/components/icons/IconTile.vue';
 
 import Message from '@/components/Message.vue';
-import NewNote from '@/components/NewNote.vue';
+import NewNoteForm from '@/components/NewNoteForm.vue';
 import Search from '@/components/Search.vue';
 import NotesList from '@/components/NotesList.vue';
 
@@ -85,7 +85,7 @@ function removeNote(index: number) {
           />
 
           <!-- new note -->
-          <NewNote
+          <NewNoteForm
             v-model="newNote"
             @addNote="addNote"
           />
