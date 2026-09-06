@@ -6,8 +6,8 @@
   --color-bg: #343d4b;
   --color-bg-main: #222831;
   --color-bg-card: #272e37;
-  --l-gradient: linear-gradient(91deg, #90d9e0 90%, #5460e6 90%);
-  --l-gradient-inverted: linear-gradient(256deg, #90d9e0 90%, #5460e6 90%);
+  --l-gradient: linear-gradient(91deg, rgba(144, 217, 224, 0.90) 0.2%, rgba(84, 96, 230, 0.90) 100%);
+  --l-gradient-inverted: linear-gradient(256deg, rgba(144, 217, 224, 0.90) 9.04%, rgba(84, 96, 230, 0.90) 92.2%);
 }
 
 *,
