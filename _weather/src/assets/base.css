@@ -1,9 +1,13 @@
-/* color palette from <https://github.com/vuejs/theme> */
-:root {
-}
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 
-/* semantic color variables for this project */
 :root {
+  --color-primary: #ffffff;
+  --color-primary-inverted: #000000;
+  --color-bg: #343d4b;
+  --color-bg-main: #222831;
+  --color-bg-card: #272e37;
+  --l-gradient: linear-gradient(91deg, #90d9e0 90%, #5460e6 90%);
+  --l-gradient-inverted: linear-gradient(256deg, #90d9e0 90%, #5460e6 90%);
 }
 
 *,
@@ -14,15 +18,20 @@
   font-weight: normal;
 }
 
+html,
 body {
-  min-height: 100vh;
-  color: var(--color-text);
-  background: var(--color-background);
+  height: 100%;
+}
+
+body {
+  color: var(--color-primary);
+  background: var(--color-bg);
   transition:
     color 0.5s,
     background-color 0.5s;
   line-height: 1.6;
   font-family:
+    Montserrat,
     Inter,
     -apple-system,
     BlinkMacSystemFont,
@@ -39,4 +48,31 @@ body {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+#app {
+  min-height: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  font-weight: normal;
+}
+
+a {
+  text-decoration: none;
+  transition: 0.4s;
+  padding: 3px;
+}
+
+@media (hover: hover) {
+  a:hover {
+    background-color: hsla(160, 100%, 37%, 0.2);
+  }
+}
+
+@media (min-width: 1024px) {
+  body {
+    display: flex;
+    place-items: center;
+  }
 }
