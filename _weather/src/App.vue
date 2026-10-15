@@ -2,7 +2,7 @@
 import Stat from "@/components/Stat.vue";
 import CitySelect from "@/components/CitySelect.vue";
 
-function onCitySelect(e: string) {
+function onSelectCity(e: string) {
   console.log(e);
 }
 </script>
@@ -12,7 +12,7 @@ function onCitySelect(e: string) {
     <div class="app-main__left">
       <Stat term="Humidity" descr="90%" />
       <Stat term="Precipitation" descr="0%" />
-      <CitySelect @select-city="onCitySelect" />
+      <CitySelect @select-city="onSelectCity" />
     </div>
   </main>
 </template>
