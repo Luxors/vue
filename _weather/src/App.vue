@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import IconLocation from "@/components/icons/IconLocation.vue";
 import Stat from "@/components/Stat.vue";
-import Button from "@/components/Button.vue";
+import CitySelect from "@/components/CitySelect.vue";
 </script>
 
 <template>
@@ -9,11 +8,7 @@ import Button from "@/components/Button.vue";
     <div class="app-main__left">
       <Stat term="Humidity" descr="90%" />
       <Stat term="Precipitation" descr="0%" />
-      <Button>
-        <template #icon>
-          <IconLocation />
-        </template>
-      </Button>
+      <CitySelect />
     </div>
   </main>
 </template>

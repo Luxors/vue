@@ -15,7 +15,7 @@ const { label = "Save" } = defineProps({
 .app-button {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 0.563rem;
   padding: 0.875rem;
   font-family: var(--font-base);
   font-size: 1.25rem;

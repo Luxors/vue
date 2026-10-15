@@ -20,6 +20,7 @@ const { term = "Not specified", descr = "Not specified" } = defineProps({
 }
 .app-stat__term {
   font-weight: 700;
+  text-transform: uppercase;
 }
 .app-stat__descr {
   font-weight: 500;
