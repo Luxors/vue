@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import Stat from "@/components/Stat.vue";
 import CitySelect from "@/components/CitySelect.vue";
+
+function onCitySelect(e: string) {
+  console.log(e);
+}
 </script>
 
 <template>
@@ -8,7 +12,7 @@ import CitySelect from "@/components/CitySelect.vue";
     <div class="app-main__left">
       <Stat term="Humidity" descr="90%" />
       <Stat term="Precipitation" descr="0%" />
-      <CitySelect />
+      <CitySelect @select-city="onCitySelect" />
     </div>
   </main>
 </template>
