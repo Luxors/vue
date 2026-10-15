@@ -1,16 +1,21 @@
 <script setup lang="ts">
+const { label = "Save" } = defineProps({
+  label: String,
+});
 </script>
+
 <template>
-  <button
-    type="button"
-    class="app-button"
-  >
-    Save
+  <button type="button" class="app-button">
+    <slot name="icon" />
+    <span class="app-button__label">{{ label }}</span>
   </button>
 </template>
 
 <style lang="css" scoped>
 .app-button {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
   padding: 0.875rem;
   font-family: var(--font-base);
   font-size: 1.25rem;
