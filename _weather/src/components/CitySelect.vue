@@ -23,12 +23,12 @@ function onSelect() {
 </script>
 
 <template>
-  <Button label="Select a city" @click="onShowSelect">
+  <Button v-show="!isSelectVisible" label="Select a city" @click="onShowSelect">
     <template #icon>
       <IconLocation />
     </template>
   </Button>
-  <div v-if="isSelectVisible">
+  <div v-show="isSelectVisible">
     <input />
     <Button @click="onSelect" />
   </div>
