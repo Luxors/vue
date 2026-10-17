@@ -3,6 +3,7 @@
 :root {
   --color-primary: #ffffff;
   --color-primary-inverted: #000000;
+  --color-text-placeholder: #3f4958;
   --color-bg: #343d4b;
   --color-bg-main: #222831;
   --color-bg-card: #272e37;

@@ -3,6 +3,7 @@ import { ref } from "vue";
 
 import IconLocation from "@/components/icons/IconLocation.vue";
 import Button from "@/components/Button.vue";
+import Input from "@/components/Input.vue";
 
 const emit = defineEmits({
   selectCity(payload) {
@@ -23,13 +24,26 @@ function onSelect() {
 </script>
 
 <template>
-  <Button v-show="!isSelectVisible" label="Select a city" @click="onShowSelect">
-    <template #icon>
-      <IconLocation />
-    </template>
-  </Button>
-  <div v-show="isSelectVisible">
-    <input />
-    <Button @click="onSelect" />
+  <div class="app-city-select">
+    <Button v-show="!isSelectVisible" label="Select a city" @click="onShowSelect">
+      <template #icon>
+        <IconLocation />
+      </template>
+    </Button>
+    <div v-show="isSelectVisible" class="app-city-select__input">
+      <Input placeholder="Enter city" />
+      <Button @click="onSelect" />
+    </div>
   </div>
 </template>
+
+<style scoped>
+.app-city-select {
+  width: 26.25rem;
+}
+
+.app-city-select__input {
+  display: flex;
+  gap: 0.75rem;
+}
+</style>
