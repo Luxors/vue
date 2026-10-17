@@ -12,13 +12,14 @@ const emit = defineEmits({
 });
 
 const isSelectVisible = ref(false);
+const selectedCity = ref("London");
 
 function onShowSelect() {
   isSelectVisible.value = true;
 }
 
 function onSelect() {
-  emit("selectCity", "London");
+  emit("selectCity", selectedCity.value);
   isSelectVisible.value = false;
 }
 </script>
@@ -31,7 +32,7 @@ function onSelect() {
       </template>
     </Button>
     <div v-show="isSelectVisible" class="app-city-select__input">
-      <Input placeholder="Enter city" />
+      <Input v-model="selectedCity" placeholder="Enter city" />
       <Button @click="onSelect" />
     </div>
   </div>
