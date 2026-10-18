@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 
 import IconLocation from "@/components/icons/IconLocation.vue";
 import Button from "@/components/Button.vue";
@@ -22,6 +22,10 @@ function onSelect() {
   emit("selectCity", selectedCity.value);
   isSelectVisible.value = false;
 }
+
+onMounted(() => {
+  emit("selectCity", selectedCity.value);
+});
 </script>
 
 <template>

@@ -1,35 +1,41 @@
 <script setup lang="ts">
-import { computed, reactive } from "vue";
+import { computed, ref } from "vue";
 
 import Stat from "@/components/Stat.vue";
 import CitySelect from "@/components/CitySelect.vue";
 
-const data = reactive({
-  humidity: "90",
-  precipitation: "0",
-  wind: "3",
+const API_ENDPOINT = "https://api.weatherapi.com/v1";
+
+const data = ref();
+
+const dataModified = computed(() => {
+  if (!data.value) return [];
+  return [
+    {
+      term: "humidity",
+      descr: data.value.current.humidity + "%",
+    },
+    {
+      term: "precip",
+      descr: data.value.current.precip_mm + " mm",
+    },
+    {
+      term: "wind",
+      descr: data.value.current.wind_kph + " k/h",
+    },
+  ];
 });
 
-const dataModified = computed(() => [
-  {
-    term: "humidity",
-    descr: data.humidity + "%",
-  },
-  {
-    term: "precipitation",
-    descr: data.precipitation + "%",
-  },
-  {
-    term: "wind",
-    descr: data.wind + " m/s",
-  },
-]);
+async function onSelectCity(city: string) {
+  const params = new URLSearchParams({
+    q: city,
+    lang: "en",
+    key: "9b389974c3ae45d4a50202506261810",
+    days: "3",
+  });
 
-function onSelectCity(e: string) {
-  console.log(e);
-  data.humidity = "20";
-  data.precipitation = "50";
-  data.wind = "8";
+  const res = await fetch(`${API_ENDPOINT}/forecast.json?${params.toString()}`);
+  data.value = await res.json();
 }
 </script>
 
