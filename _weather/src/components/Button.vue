@@ -24,7 +24,7 @@ const { label = "Save" } = defineProps({
   font-weight: 600;
   color: var(--color-primary);
   border: none;
-  border-radius: 10px;
+  border-radius: 0.625rem;
   background: var(--l-gradient);
   cursor: pointer;
 }

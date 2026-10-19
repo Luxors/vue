@@ -1,12 +1,16 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
 
+import { type ApiError } from "@/components/Error.vue";
+
 import Stat from "@/components/Stat.vue";
 import CitySelect from "@/components/CitySelect.vue";
+import Error from "@/components/Error.vue";
 
 const API_ENDPOINT = "https://api.weatherapi.com/v1";
 
 const data = ref();
+const error = ref<ApiError>();
 
 const dataModified = computed(() => {
   if (!data.value) return [];
@@ -35,6 +39,11 @@ async function onSelectCity(city: string) {
   });
 
   const res = await fetch(`${API_ENDPOINT}/forecast.json?${params.toString()}`);
+  if (res.status !== 200) {
+    error.value = await res.json();
+    data.value = null;
+    return;
+  }
   data.value = await res.json();
 }
 </script>
@@ -42,6 +51,7 @@ async function onSelectCity(city: string) {
 <template>
   <main class="app-main">
     <div class="app-main__left">
+      <Error v-if="error" :error="error" />
       <Stat v-for="{ term, descr } in dataModified" :key="term" :term="term" :descr="descr" />
       <CitySelect @select-city="onSelectCity" />
     </div>
