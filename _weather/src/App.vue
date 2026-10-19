@@ -3,6 +3,10 @@ import { computed, ref } from "vue";
 
 import { type ApiError } from "@/components/Error.vue";
 
+import IconSun from "@/components/icons/IconSun.vue";
+import IconCloud from "@/components/icons/IconCloud.vue";
+import IconRain from "@/components/icons/IconRain.vue";
+
 import Stat from "@/components/Stat.vue";
 import CitySelect from "@/components/CitySelect.vue";
 import Error from "@/components/Error.vue";
@@ -50,6 +54,11 @@ async function onSelectCity(city: string) {
 
 <template>
   <main class="app-main">
+    <div class="app-main__right">
+      <IconSun />
+      <IconCloud />
+      <IconRain />
+    </div>
     <div class="app-main__left">
       <Error v-if="error" :error="error" />
       <Stat v-for="{ term, descr } in dataModified" :key="term" :term="term" :descr="descr" />
