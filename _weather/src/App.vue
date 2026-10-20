@@ -12,6 +12,7 @@ const API_ENDPOINT = "https://api.weatherapi.com/v1";
 
 const data = ref();
 const error = ref<ApiError>();
+const activeDayCard = ref(0);
 
 const dataModified = computed(() => {
   if (!data.value) return [];
@@ -62,11 +63,13 @@ async function onSelectCity(city: string) {
         </div>
         <div class="app-main__daycards">
           <DayCard
-            v-for="item in data.forecast.forecastday"
+            v-for="(item, i) in data.forecast.forecastday"
             :key="item.date"
             :weather-code="item.day.condition.code"
             :temp="item.day.avgtemp_c"
             :date="new Date(item.date)"
+            :is-active="activeDayCard === i"
+            @click="() => (activeDayCard = i)"
           />
         </div>
       </div>
