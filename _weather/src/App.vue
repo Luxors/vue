@@ -3,13 +3,10 @@ import { computed, ref } from "vue";
 
 import { type ApiError } from "@/components/Error.vue";
 
-import IconSun from "@/components/icons/IconSun.vue";
-import IconCloud from "@/components/icons/IconCloud.vue";
-import IconRain from "@/components/icons/IconRain.vue";
-
 import Stat from "@/components/Stat.vue";
 import CitySelect from "@/components/CitySelect.vue";
 import Error from "@/components/Error.vue";
+import DayCard from "@/components/DayCard.vue";
 
 const API_ENDPOINT = "https://api.weatherapi.com/v1";
 
@@ -43,25 +40,36 @@ async function onSelectCity(city: string) {
   });
 
   const res = await fetch(`${API_ENDPOINT}/forecast.json?${params.toString()}`);
+  // console.log(res.json());
   if (res.status !== 200) {
     error.value = await res.json();
     data.value = null;
     return;
   }
   data.value = await res.json();
+  console.log(data.value);
 }
 </script>
 
 <template>
   <main class="app-main">
-    <div class="app-main__right">
-      <IconSun />
-      <IconCloud />
-      <IconRain />
-    </div>
+    <div class="app-main__right"></div>
     <div class="app-main__left">
-      <Error v-if="error" :error="error" />
-      <Stat v-for="{ term, descr } in dataModified" :key="term" :term="term" :descr="descr" />
+      <div v-if="data" class="app-main__data">
+        <Error v-if="error" :error="error" />
+        <div>
+          <Stat v-for="{ term, descr } in dataModified" :key="term" :term="term" :descr="descr" />
+        </div>
+        <div class="app-main__daycards">
+          <DayCard
+            v-for="item in data.forecast.forecastday"
+            :key="item.date"
+            :weather-code="item.day.condition.code"
+            :temp="item.day.avgtemp_c"
+            :date="new Date(item.date)"
+          />
+        </div>
+      </div>
       <CitySelect @select-city="onSelectCity" />
     </div>
   </main>
@@ -69,8 +77,21 @@ async function onSelectCity(city: string) {
 
 <style scoped>
 .app-main__left {
-  padding: 1.25rem;
+  padding: 2rem;
   background-color: var(--color-bg-main);
   border-radius: 1.563rem;
+}
+
+.app-main__data {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  margin-bottom: 3rem;
+}
+
+.app-main__daycards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
 }
 </style>
