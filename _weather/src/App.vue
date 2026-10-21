@@ -55,7 +55,7 @@ async function onSelectCity(city: string) {
 
 <template>
   <main class="app-main">
-    <div class="app-main__right">
+    <div class="app-main__left">
       <div>
         <p class="app-data-current__weekday">Tuesday</p>
         <p class="app-data-current__date">{{ new Date().toLocaleDateString() }}</p>
@@ -70,7 +70,7 @@ async function onSelectCity(city: string) {
         <p class="app-data-current__condition">{{ data?.current.condition.text }}</p>
       </div>
     </div>
-    <div class="app-main__left">
+    <div class="app-main__right">
       <div v-if="data" class="app-main__data">
         <Error v-if="error" :error="error" />
         <div>
@@ -98,7 +98,7 @@ async function onSelectCity(city: string) {
   display: flex;
   align-items: center;
 }
-.app-main__right {
+.app-main__left {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -145,7 +145,7 @@ async function onSelectCity(city: string) {
   font-weight: 600;
 }
 
-.app-main__left {
+.app-main__right {
   display: flex;
   flex-direction: column;
   justify-content: center;
