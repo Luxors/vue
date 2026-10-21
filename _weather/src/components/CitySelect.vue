@@ -44,11 +44,12 @@ onBeforeMount(() => {
 
 <style scoped>
 .app-city-select {
-  width: 26.25rem;
+  width: 17rem;
 }
 
 .app-city-select__input {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr auto;
   gap: 0.75rem;
 }
 </style>

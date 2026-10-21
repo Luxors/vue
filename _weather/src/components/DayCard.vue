@@ -14,9 +14,9 @@ const { weatherCode, temp, date } = defineProps({
 <template>
   <button type="button" class="app-day-card" :class="{ 'app-day-card--active': isActive }">
     <div class="app-day-card__icon">
-      <IconSun v-if="weatherCode <= 1003" />
-      <IconCloud v-if="weatherCode >= 1006 && weatherCode < 1063" />
-      <IconRain v-if="weatherCode >= 1063" />
+      <IconSun v-if="weatherCode !== undefined && weatherCode <= 1003" />
+      <IconCloud v-if="weatherCode !== undefined && weatherCode >= 1006 && weatherCode < 1063" />
+      <IconRain v-if="weatherCode !== undefined && weatherCode >= 1063" />
     </div>
     <div class="app-day-card__date">
       {{ date?.toLocaleDateString("en-EN", { weekday: "short" }) }}

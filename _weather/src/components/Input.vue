@@ -8,6 +8,7 @@ const data = defineModel({ type: String, required: true });
 
 <style scoped>
 .app-input {
+  width: 100%;
   padding: 0.938rem 1.25rem;
   font-size: 1.125rem;
   color: var(--color-primary);
