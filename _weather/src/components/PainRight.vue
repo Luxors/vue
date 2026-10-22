@@ -14,7 +14,7 @@ const { data, error, activeIndex } = defineProps({
   activeIndex: Number,
 });
 
-const emit = defineEmits(["select-index", "select-city"]);
+const emit = defineEmits(["select-index"]);
 
 const statData = computed(() => {
   if (!data) return [];
@@ -38,7 +38,6 @@ const statData = computed(() => {
 <template>
   <div class="app-pain-right">
     <div v-if="data" class="app-pain-right__data">
-      <Error v-if="error" :error="error" />
       <div>
         <Stat v-for="{ term, descr } in statData" :key="term" :term="term" :descr="descr" />
       </div>
@@ -54,7 +53,8 @@ const statData = computed(() => {
         />
       </div>
     </div>
-    <CitySelect @select-city="(city) => emit('select-city', city)" />
+    <Error v-else-if="error" :error="error" />
+    <CitySelect />
   </div>
 </template>
 
@@ -62,10 +62,10 @@ const statData = computed(() => {
 .app-pain-right {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
   gap: 3rem;
   height: 25rem;
-  padding: 0 2rem;
+  padding: 1.5rem 2rem;
   background-color: var(--color-bg-main);
   border-radius: 0 1.563rem 1.563rem 0;
 }

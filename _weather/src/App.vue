@@ -1,7 +1,9 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { onMounted, provide, ref, watch } from "vue";
 
 import { type ApiError } from "@/components/Error.vue";
+
+import { cityProvide } from "@/injection-keys.ts";
 
 import IconLocation from "@/components/icons/IconLocation.vue";
 import IconSun from "@/components/icons/IconSun.vue";
@@ -11,7 +13,10 @@ const API_ENDPOINT = "https://api.weatherapi.com/v1";
 
 const data = ref();
 const error = ref<ApiError>();
+const selectedCity = ref("London");
 const selectedDayIndex = ref(0);
+
+provide(cityProvide, selectedCity);
 
 async function onSelectCity(city: string) {
   const params = new URLSearchParams({
@@ -28,8 +33,16 @@ async function onSelectCity(city: string) {
     return;
   }
   data.value = await res.json();
-  console.log(data.value);
+  // console.log(data.value);
 }
+
+watch(selectedCity, () => {
+  onSelectCity(selectedCity.value);
+});
+
+onMounted(() => {
+  onSelectCity(selectedCity.value);
+});
 </script>
 
 <template>
@@ -54,7 +67,6 @@ async function onSelectCity(city: string) {
       :error
       :active-index="selectedDayIndex"
       @select-index="(i) => (selectedDayIndex = i)"
-      @select-city="onSelectCity"
     />
   </main>
 </template>

@@ -1,31 +1,25 @@
 <script setup lang="ts">
-import { onBeforeMount, ref } from "vue";
+import { inject, ref } from "vue";
+
+import { cityProvide } from "@/injection-keys.ts";
 
 import IconLocation from "@/components/icons/IconLocation.vue";
 import Button from "@/components/Button.vue";
 import Input from "@/components/Input.vue";
 
-const emit = defineEmits({
-  selectCity(payload) {
-    return payload;
-  },
-});
+const city = inject(cityProvide, ref(""));
 
+const inputValue = ref(city.value);
 const isSelectVisible = ref(false);
-const selectedCity = ref("London");
 
 function onShowSelect() {
   isSelectVisible.value = true;
 }
 
 function onSelect() {
-  emit("selectCity", selectedCity.value);
   isSelectVisible.value = false;
+  city.value = inputValue.value;
 }
-
-onBeforeMount(() => {
-  emit("selectCity", selectedCity.value);
-});
 </script>
 
 <template>
@@ -36,7 +30,7 @@ onBeforeMount(() => {
       </template>
     </Button>
     <div v-show="isSelectVisible" class="app-city-select__input">
-      <Input v-model="selectedCity" placeholder="Enter city" />
+      <Input v-model="inputValue" placeholder="Enter city" />
       <Button @click="onSelect" />
     </div>
   </div>

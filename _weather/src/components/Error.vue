@@ -14,7 +14,10 @@ interface Props {
 
 const props = defineProps<Props>();
 
-const errorMap = new Map([[1006, "No matching location found."]]);
+const errorMap = new Map([
+  [1003, "Parameter q is missing"],
+  [1006, "No matching location found."],
+]);
 
 const errorDisplay = computed(() => {
   return errorMap.get(props.error?.error?.code);
