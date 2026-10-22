@@ -1,38 +1,17 @@
 <script setup lang="ts">
-import { computed, ref } from "vue";
+import { ref } from "vue";
 
 import { type ApiError } from "@/components/Error.vue";
 
-import Stat from "@/components/Stat.vue";
-import CitySelect from "@/components/CitySelect.vue";
-import Error from "@/components/Error.vue";
-import DayCard from "@/components/DayCard.vue";
 import IconLocation from "@/components/icons/IconLocation.vue";
 import IconSun from "@/components/icons/IconSun.vue";
+import PainRight from "@/components/PainRight.vue";
 
 const API_ENDPOINT = "https://api.weatherapi.com/v1";
 
 const data = ref();
 const error = ref<ApiError>();
-const activeDayCard = ref(0);
-
-const dataModified = computed(() => {
-  if (!data.value) return [];
-  return [
-    {
-      term: "humidity",
-      descr: data.value.current.humidity + "%",
-    },
-    {
-      term: "precip",
-      descr: data.value.current.precip_mm + " mm",
-    },
-    {
-      term: "wind",
-      descr: data.value.current.wind_kph + " k/h",
-    },
-  ];
-});
+const selectedDayIndex = ref(0);
 
 async function onSelectCity(city: string) {
   const params = new URLSearchParams({
@@ -70,26 +49,13 @@ async function onSelectCity(city: string) {
         <p class="app-data-current__condition">{{ data?.current.condition.text }}</p>
       </div>
     </div>
-    <div class="app-main__right">
-      <div v-if="data" class="app-main__data">
-        <Error v-if="error" :error="error" />
-        <div>
-          <Stat v-for="{ term, descr } in dataModified" :key="term" :term="term" :descr="descr" />
-        </div>
-        <div class="app-main__daycards">
-          <DayCard
-            v-for="(item, i) in data.forecast.forecastday"
-            :key="item.date"
-            :weather-code="item.day.condition.code"
-            :temp="item.day.avgtemp_c"
-            :date="new Date(item.date)"
-            :is-active="activeDayCard === i"
-            @click="() => (activeDayCard = Number(i))"
-          />
-        </div>
-      </div>
-      <CitySelect @select-city="onSelectCity" />
-    </div>
+    <PainRight
+      :data
+      :error
+      :active-index="selectedDayIndex"
+      @select-index="(i) => (selectedDayIndex = i)"
+      @select-city="onSelectCity"
+    />
   </main>
 </template>
 
@@ -143,28 +109,5 @@ async function onSelectCity(city: string) {
 
 .app-data-current__condition {
   font-weight: 600;
-}
-
-.app-main__right {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 3rem;
-  height: 25rem;
-  padding: 0 2rem;
-  background-color: var(--color-bg-main);
-  border-radius: 0 1.563rem 1.563rem 0;
-}
-
-.app-main__data {
-  display: flex;
-  flex-direction: column;
-  gap: 3rem;
-}
-
-.app-main__daycards {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 0.5rem;
 }
 </style>
