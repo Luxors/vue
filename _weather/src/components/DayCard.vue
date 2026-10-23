@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import IconSun from "@/components/icons/IconSun.vue";
-import IconCloud from "@/components/icons/IconCloud.vue";
-import IconRain from "@/components/icons/IconRain.vue";
+import ConditionIcons from "@/components/ConditionIcons.vue";
 
 const { weatherCode, temp, date } = defineProps({
   weatherCode: Number,
@@ -13,11 +11,7 @@ const { weatherCode, temp, date } = defineProps({
 
 <template>
   <button type="button" class="app-day-card" :class="{ 'app-day-card--active': isActive }">
-    <div class="app-day-card__icon">
-      <IconSun v-if="weatherCode !== undefined && weatherCode <= 1003" />
-      <IconCloud v-if="weatherCode !== undefined && weatherCode >= 1006 && weatherCode < 1063" />
-      <IconRain v-if="weatherCode !== undefined && weatherCode >= 1063" />
-    </div>
+    <ConditionIcons :weather-code class="app-day-card__icon"/>
     <div class="app-day-card__date">
       {{ date?.toLocaleDateString("en-EN", { weekday: "short" }) }}
     </div>
