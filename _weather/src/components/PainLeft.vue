@@ -4,7 +4,6 @@ import { inject, computed, ref } from "vue";
 import { cityProvide } from "@/injection-keys.ts";
 
 import IconLocation from "@/components/icons/IconLocation.vue";
-import IconSun from "@/components/icons/IconSun.vue";
 import ConditionIcons from "@/components/ConditionIcons.vue";
 
 const city = inject(cityProvide, ref(""));
