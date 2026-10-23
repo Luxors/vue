@@ -4,7 +4,7 @@ import { inject, computed, ref } from "vue";
 import { cityProvide } from "@/injection-keys.ts";
 
 import IconLocation from "@/components/icons/IconLocation.vue";
-import ConditionIcons from "@/components/ConditionIcons.vue";
+import ConditionIcon from "@/components/ConditionIcon.vue";
 
 const city = inject(cityProvide, ref(""));
 
@@ -37,7 +37,7 @@ const dayData = computed(() => data?.forecast.forecastday[dayIndex ?? 0]);
       </div>
     </div>
     <div>
-      <ConditionIcons :weather-code="dayData.day.condition.code" class="app-pain-left__icon" />
+      <ConditionIcon :src="dayData.day.condition.icon" />
       <p class="app-pain-left__temp">{{ dayData.day.avgtemp_c }} &deg;C</p>
       <p class="app-pain-left__condition">{{ dayData.day.condition.text }}</p>
     </div>
