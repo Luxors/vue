@@ -17,19 +17,19 @@ const { data, error, activeIndex } = defineProps({
 const emit = defineEmits(["select-index"]);
 
 const statData = computed(() => {
-  if (!data) return [];
+  if (!data || activeIndex === undefined) return [];
   return [
     {
       term: "humidity",
-      descr: data.current.humidity + "%",
+      descr: data.forecast.forecastday[activeIndex].day.avghumidity + "%",
     },
     {
       term: "precip",
-      descr: data.current.precip_mm + " mm",
+      descr: data.forecast.forecastday[activeIndex].day.totalprecip_mm + " mm",
     },
     {
       term: "wind",
-      descr: data.current.wind_kph + " k/h",
+      descr: data.forecast.forecastday[activeIndex].day.maxwind_kph + " k/h",
     },
   ];
 });
