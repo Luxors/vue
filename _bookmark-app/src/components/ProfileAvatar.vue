@@ -11,7 +11,9 @@ const { name } = defineProps<{ name: string }>()
       height="80"
       class="profile-avatar__image"
     />
-    <p class="profile-avatar__name"><b>Hello</b>, {{ name }}</p>
+    <p class="profile-avatar__name">
+      Hello, <strong>{{ name }}</strong>
+    </p>
   </div>
 </template>
 
