@@ -1,0 +1,47 @@
+:root {
+  --color-fg: #1c1c1c;
+  --color-bg: #ffffff;
+  --color-disabled: rgba(28, 28, 28, 0.4);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+html {
+  font-size: 16px;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  color: var(--color-fg);
+  background-color: var(--color-bg);
+  transition:
+    color 0.5s,
+    background-color 0.5s;
+  line-height: 1.5;
+  font-family: 'Roboto', sans-serif;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#app {
+  height: 100%;
+  font-weight: normal;
+}
+
+.app {
+  display: flex;
+  gap: 12.5rem;
+  width: 100%;
+  max-width: 1450px;
+  height: 100%;
+  padding: 2rem;
+  overflow: hidden;
+}
