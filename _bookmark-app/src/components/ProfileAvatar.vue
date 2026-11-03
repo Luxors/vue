@@ -5,7 +5,7 @@ const { name } = defineProps<{ name: string }>();
 <template>
   <div class="profile-avatar">
     <img
-      src="../assets/images/avatar.jpg"
+      src="../assets/images/avatar.jpeg"
       alt="User avatar"
       width="80"
       height="80"
