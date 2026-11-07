@@ -1,9 +1,9 @@
+import { ref } from 'vue';
+import { defineStore } from 'pinia';
+
 import type { Profile } from '@/types';
 
 import { API_ROUTES, http } from '@/api';
-
-import { defineStore } from 'pinia';
-import { ref } from 'vue';
 
 export const useProfileStore = defineStore('profile', () => {
   const profile = ref<Profile | null>(null);
