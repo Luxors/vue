@@ -1,9 +1,16 @@
 <script setup lang="ts">
-const { name } = defineProps<{ name: string }>();
+import { onMounted } from 'vue';
+import { useProfileStore } from '../stores/profile.store.ts';
+
+const store = useProfileStore();
+
+onMounted(() => {
+  store.fetchProfile();
+});
 </script>
 
 <template>
-  <div class="profile-avatar">
+  <div v-if="store.profile" class="profile-avatar">
     <img
       src="../assets/images/avatar.jpeg"
       alt="User avatar"
@@ -12,7 +19,7 @@ const { name } = defineProps<{ name: string }>();
       class="profile-avatar__image"
     />
     <p class="profile-avatar__name">
-      Hello, <strong>{{ name }}</strong>
+      Hello, <strong>{{ store.profile.name }}</strong>
     </p>
   </div>
 </template>
