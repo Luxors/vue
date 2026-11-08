@@ -7,4 +7,5 @@ export const http = axios.create({
 
 export const API_ROUTES = {
   profile: 'profile',
+  categories: 'categories',
 };
