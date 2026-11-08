@@ -6,5 +6,4 @@ export interface Category {
   id: number;
   name: string;
   allias: string;
-  bookmarks: number;
 }
