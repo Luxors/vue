@@ -12,7 +12,14 @@ onMounted(async () => {
 <template>
   <ul v-if="store.categories?.length" class="categories-list">
     <li v-for="category in store.categories" :key="category.id">
-      <a :href="`/${category.allias}`" class="categories-list__link">{{ category.name }}</a>
+      <RouterLink
+        :to="{
+          name: 'development',
+        }"
+        class="categories-list__link"
+      >
+        {{ category.name }}
+      </RouterLink>
     </li>
   </ul>
 </template>
