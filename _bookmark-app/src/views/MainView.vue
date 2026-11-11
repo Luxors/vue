@@ -4,13 +4,11 @@ import CategoriesList from '../components/CategoriesList.vue';
 </script>
 
 <template>
-  <div class="app">
-    <nav>
-      <ProfileAvatar />
-      <CategoriesList />
-    </nav>
-    <main><RouterView /></main>
-  </div>
+  <nav>
+    <ProfileAvatar />
+    <CategoriesList />
+  </nav>
+  <main><RouterView /></main>
 </template>
 
 <style scoped>
