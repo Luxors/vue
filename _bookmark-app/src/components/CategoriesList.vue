@@ -2,6 +2,9 @@
 import { onMounted } from 'vue';
 import { useCategoryStore } from '@/stores/categories.store.ts';
 
+import IconPlus from '@/components/IconPlus.vue';
+import BaseButton from '@/components/BaseButton.vue';
+
 const store = useCategoryStore();
 
 onMounted(async () => {
@@ -23,6 +26,11 @@ onMounted(async () => {
       </RouterLink>
     </li>
   </ul>
+  <BaseButton @click="store.createCategory">
+    <template #icon>
+      <IconPlus />
+    </template>
+  </BaseButton>
 </template>
 
 <style scoped>

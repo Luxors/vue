@@ -5,5 +5,5 @@ export interface Profile {
 export interface Category {
   id: number;
   name: string;
-  allias: string;
+  alias: string;
 }
