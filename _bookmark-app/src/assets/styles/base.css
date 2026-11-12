@@ -45,13 +45,3 @@ body {
   height: 100%;
   font-weight: normal;
 }
-
-.app {
-  display: flex;
-  gap: 12.5rem;
-  width: 100%;
-  max-width: 1450px;
-  height: 100%;
-  padding: 2rem;
-  overflow: hidden;
-}

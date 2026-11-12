@@ -13,16 +13,16 @@ function goToMain() {
 </script>
 
 <template>
-  <main class="app-auth">
-    <div class="app-auth__caption">
-      <h1 class="app-auth__title">Bookmarkly</h1>
+  <main class="auth">
+    <div class="auth__caption">
+      <h1 class="auth__title">Bookmarkly</h1>
       <BaseButton label="Enter" @click="goToMain" />
     </div>
   </main>
 </template>
 
 <style scoped>
-.app-auth {
+.auth {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -30,11 +30,11 @@ function goToMain() {
   height: 100%;
 }
 
-.app-auth__caption {
+.auth__caption {
   text-align: center;
 }
 
-.app-auth__title {
+.auth__title {
   margin-bottom: 3.25rem;
   font-size: 3.25rem;
 }
