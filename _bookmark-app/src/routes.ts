@@ -1,7 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import AuthView from './views/AuthView.vue';
-import MainView from './views/MainView.vue';
-import DevelopmentView from './views/DevelopmentView.vue';
 
 export const router = createRouter({
   history: createWebHistory(),
@@ -9,17 +6,17 @@ export const router = createRouter({
     {
       path: '/',
       name: 'auth',
-      component: AuthView,
+      component: () => import('@/views/AuthView.vue'),
     },
     {
       path: '/main',
       name: 'main',
-      component: MainView,
+      component: () => import('@/views/MainView.vue'),
       children: [
         {
           path: 'development',
           name: 'development',
-          component: DevelopmentView,
+          component: () => import('@/views/DevelopmentView.vue'),
         },
       ],
     },
