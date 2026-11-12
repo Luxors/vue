@@ -16,6 +16,7 @@ onMounted(async () => {
         :to="{
           name: 'development',
         }"
+        active-class="categories-list__link--active"
         class="categories-list__link"
       >
         {{ category.name }}
@@ -38,6 +39,11 @@ onMounted(async () => {
 }
 
 .categories-list__link:hover {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.categories-list__link--active {
   font-size: 1.5rem;
   font-weight: 700;
 }
