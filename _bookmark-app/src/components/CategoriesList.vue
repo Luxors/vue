@@ -9,6 +9,7 @@ const store = useCategoryStore();
 
 onMounted(async () => {
   await store.fetchCategories();
+  console.log(store.categories, 'categories');
 });
 </script>
 
@@ -16,9 +17,7 @@ onMounted(async () => {
   <ul v-if="store.categories?.length" class="categories-list">
     <li v-for="category in store.categories" :key="category.id">
       <RouterLink
-        :to="{
-          name: 'development',
-        }"
+        :to="`/main/${category.alias}`"
         active-class="categories-list__link--active"
         class="categories-list__link"
       >
