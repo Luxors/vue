@@ -9,7 +9,6 @@ const store = useCategoryStore();
 
 onMounted(async () => {
   await store.fetchCategories();
-  console.log(store.categories, 'categories');
 });
 </script>
 

@@ -5,11 +5,11 @@ import CategoriesList from '@/components/CategoriesList.vue';
 
 <template>
   <div class="app">
-    <aside>
+    <aside class="app__aside">
       <ProfileAvatar />
       <CategoriesList />
     </aside>
-    <main>
+    <main class="app__main">
       <RouterView />
     </main>
   </div>
@@ -26,6 +26,12 @@ import CategoriesList from '@/components/CategoriesList.vue';
   margin: 0 auto;
   padding: 2rem;
   overflow: hidden;
+}
+
+.app__aside {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .profile-avatar {
