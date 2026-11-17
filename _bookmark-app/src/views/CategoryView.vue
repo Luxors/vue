@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { watch, ref } from 'vue';
+import { computed, watch } from 'vue';
 import { useRoute } from 'vue-router';
 
 import type { Category } from '@/types';
@@ -11,27 +11,30 @@ const route = useRoute();
 const categoryStore = useCategoryStore();
 const bookmarkStore = useBookmarkStore();
 
-const category = ref<Category>();
+const category = computed<Category | undefined>(() => {
+  const alias = route.params.alias;
+  return typeof alias === 'string' ? categoryStore.getCategoryByAlias(alias) : undefined;
+});
 
 watch(
-  () => ({
-    alias: route.params.alias,
-    categories: categoryStore.categories,
-  }),
-  (data) => {
-    category.value =
-      data.alias === undefined ? undefined : categoryStore.getCategoryByAlias(data.alias);
-    if (category.value) {
-      bookmarkStore.fetchBookmarks(category.value.id);
+  category,
+  (newCategory) => {
+    if (newCategory?.id !== undefined) {
+      bookmarkStore.fetchBookmarks(newCategory.id);
     }
   },
+  { immediate: true },
 );
 </script>
 
 <template>
   <div>
     <h1>{{ category?.name }}</h1>
-    <div>{{ bookmarkStore.bookmarks.length }} bookmarks</div>
+    <ul v-if="bookmarkStore.bookmarks.length">
+      <li v-for="bookmark in bookmarkStore.bookmarks" :key="bookmark.id">
+        <a :href="bookmark.url" target="_blank">{{ bookmark.title }}</a>
+      </li>
+    </ul>
   </div>
 </template>
 
