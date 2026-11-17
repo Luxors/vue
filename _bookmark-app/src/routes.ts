@@ -4,6 +4,11 @@ export const router = createRouter({
   history: createWebHistory(),
   routes: [
     {
+      path: '/:pathMatch(.*)*',
+      name: 'not-found',
+      component: () => import('@/views/NotFoundView.vue'),
+    },
+    {
       path: '/',
       name: 'auth',
       component: () => import('@/views/AuthView.vue'),
