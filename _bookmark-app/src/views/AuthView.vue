@@ -1,9 +1,13 @@
 <script setup lang="ts">
+import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 
+import BaseInputText from '@/components/BaseInput.vue';
 import BaseButton from '@/components/BaseButton.vue';
 
 const router = useRouter();
+
+const email = ref<string>('');
 
 function goToMain() {
   router.push({
@@ -16,6 +20,9 @@ function goToMain() {
   <main class="auth">
     <div class="auth__caption">
       <h1 class="auth__title">Bookmarkly</h1>
+      <form action="">
+        <BaseInputText v-model="email" placeholder="Email" />
+      </form>
       <BaseButton label="Enter" @click="goToMain" />
     </div>
   </main>
