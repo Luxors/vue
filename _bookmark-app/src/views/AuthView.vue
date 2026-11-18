@@ -7,7 +7,18 @@ import BaseButton from '@/components/BaseButton.vue';
 
 const router = useRouter();
 
-const email = ref<string>('');
+const form = ref<{
+  email: string;
+  password: string;
+}>({
+  email: '',
+  password: '',
+});
+
+
+function onSubmit(event: Event) {
+  event.preventDefault();
+}
 
 function goToMain() {
   router.push({
@@ -20,10 +31,11 @@ function goToMain() {
   <main class="auth">
     <div class="auth__caption">
       <h1 class="auth__title">Bookmarkly</h1>
-      <form action="">
-        <BaseInputText v-model="email" placeholder="Email" />
+      <form class="auth__form" @submit="onSubmit">
+        <BaseInputText v-model="form.email" placeholder="Email" />
+        <BaseInputText v-model="form.password" type="password" placeholder="Password" />
+        <BaseButton type="submit" label="Enter" @click="goToMain" />
       </form>
-      <BaseButton label="Enter" @click="goToMain" />
     </div>
   </main>
 </template>
@@ -42,7 +54,13 @@ function goToMain() {
 }
 
 .auth__title {
-  margin-bottom: 3.25rem;
+  margin-bottom: 3rem;
   font-size: 3.25rem;
+}
+
+.auth__form {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
 }
 </style>
