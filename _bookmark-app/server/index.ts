@@ -14,6 +14,42 @@ const JWT_SECRET = 'bookmark-app-secret-key';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const dbPath = path.resolve(__dirname, '..', 'db', 'bookmarks.db');
 
+// ─── Types ──────────────────────────────────────────────────────
+interface JwtPayload {
+  id: number;
+  email: string;
+  name: string;
+}
+
+interface UserRow {
+  id: number;
+  email: string;
+  name: string;
+  password: string;
+}
+
+interface CategoryRow {
+  id: number;
+  name: string;
+  alias: string;
+}
+
+interface BookmarkRow {
+  id: number;
+  category_id: number;
+  url: string;
+  title: string;
+  image: string;
+  created_at: string;
+}
+
+// Extend Express Request to include user from JWT
+declare module 'express' {
+  interface Request {
+    user?: JwtPayload;
+  }
+}
+
 // ─── SQLite Database ────────────────────────────────────────────
 const db = new DatabaseSync(dbPath);
 
@@ -48,12 +84,6 @@ app.use(cors());
 app.use(express.json());
 
 // ─── Middleware: JWT Token Verification ──────────────────────────
-interface JwtPayload {
-  id: number;
-  email: string;
-  name: string;
-}
-
 function authMiddleware(
   req: express.Request,
   res: express.Response,
@@ -70,7 +100,7 @@ function authMiddleware(
 
   try {
     const decoded = jwt.verify(token, JWT_SECRET) as JwtPayload;
-    (req as any).user = decoded;
+    req.user = decoded;
     next();
   } catch {
     res.status(401).json({ error: 'Invalid token' });
@@ -88,7 +118,7 @@ function hashPassword(password: string): string {
 
 // POST /api/auth/login — returns JWT token
 app.post('/api/auth/login', (req, res) => {
-  const { email, password } = req.body;
+  const { email, password } = req.body as { email?: string; password?: string };
 
   if (!email || !password) {
     res.status(400).json({ error: 'Fields email and password are required' });
@@ -102,10 +132,11 @@ app.post('/api/auth/login', (req, res) => {
 
 // GET /api/auth/profile — current user profile (from DB)
 app.get('/api/auth/profile', authMiddleware, (req, res) => {
-  const jwtUser = (req as any).user as JwtPayload;
+  const jwtUser = req.user!;
 
   // Read actual data from DB
-  const user = db.prepare('SELECT id, email, name FROM users WHERE id = ?').get(jwtUser.id) as any;
+  const user = db.prepare('SELECT id, email, name FROM users WHERE id = ?').get(jwtUser.id) as
+    UserRow | undefined;
 
   if (!user) {
     res.status(404).json({ error: 'User not found' });
@@ -144,13 +175,13 @@ app.get('/api/profile', (req, res) => {
 
 // GET /api/categories — all categories
 app.get('/api/categories', (_req, res) => {
-  const rows = db.prepare('SELECT id, name, alias FROM categories').all();
+  const rows = db.prepare('SELECT id, name, alias FROM categories').all() as CategoryRow[];
   res.json(rows);
 });
 
 // POST /api/categories — create category
 app.post('/api/categories', (req, res) => {
-  const { name, alias } = req.body;
+  const { name, alias } = req.body as { name?: string; alias?: string };
 
   if (!name || !alias) {
     res.status(400).json({ error: 'Fields name and alias are required' });
@@ -158,17 +189,19 @@ app.post('/api/categories', (req, res) => {
   }
 
   try {
-    const result = db.prepare('INSERT INTO categories (name, alias) VALUES (?, ?)').run(name, alias);
+    const result = db
+      .prepare('INSERT INTO categories (name, alias) VALUES (?, ?)')
+      .run(name, alias);
     res.status(201).json({ id: Number(result.lastInsertRowid), name, alias });
-  } catch (err: any) {
-    res.status(500).json({ error: err.message });
+  } catch (err: unknown) {
+    res.status(500).json({ error: getErrorMessage(err) });
   }
 });
 
 // PUT /api/categories/:id — update category
 app.put('/api/categories/:id', (req, res) => {
   const { id } = req.params;
-  const { name, alias } = req.body;
+  const { name, alias } = req.body as { name?: string; alias?: string };
 
   if (!name || !alias) {
     res.status(400).json({ error: 'Fields name and alias are required' });
@@ -204,15 +237,17 @@ app.get('/api/categories/:id/bookmarks', (req, res) => {
   }
 
   const rows = db
-    .prepare(`SELECT id, category_id, url, title, image, created_at FROM bookmarks WHERE category_id = ? ORDER BY ${orderBy}`)
-    .all(Number(id));
+    .prepare(
+      `SELECT id, category_id, url, title, image, created_at FROM bookmarks WHERE category_id = ? ORDER BY ${orderBy}`,
+    )
+    .all(Number(id)) as BookmarkRow[];
 
   res.json(rows);
 });
 
 // POST /api/bookmarks — create bookmark (with automatic OpenGraph parsing)
 app.post('/api/bookmarks', async (req, res) => {
-  const { category_id, url } = req.body;
+  const { category_id, url } = req.body as { category_id?: number; url?: string };
 
   if (!category_id || !url) {
     res.status(400).json({ error: 'Fields category_id and url are required' });
@@ -245,8 +280,8 @@ app.post('/api/bookmarks', async (req, res) => {
       title,
       image,
     });
-  } catch (err: any) {
-    res.status(500).json({ error: err.message });
+  } catch (err: unknown) {
+    res.status(500).json({ error: getErrorMessage(err) });
   }
 });
 
