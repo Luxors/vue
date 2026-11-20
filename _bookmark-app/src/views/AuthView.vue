@@ -1,29 +1,24 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { useRouter } from 'vue-router';
+
+import { useAuthStore } from '@/stores/auth.store';
 
 import BaseInputText from '@/components/BaseInput.vue';
 import BaseButton from '@/components/BaseButton.vue';
 
-const router = useRouter();
+const authStore = useAuthStore();
 
 const form = ref<{
-  email: string;
-  password: string;
-}>({
-  email: '',
-  password: '',
-});
-
+  email?: string;
+  password?: string;
+}>({});
 
 function onSubmit(event: Event) {
   event.preventDefault();
-}
-
-function goToMain() {
-  router.push({
-    name: 'main',
-  });
+  if (!form.value.email || !form.value.password) {
+    return;
+  }
+  authStore.login(form.value.email, form.value.password);
 }
 </script>
 
@@ -34,7 +29,8 @@ function goToMain() {
       <form class="auth__form" @submit="onSubmit">
         <BaseInputText v-model="form.email" placeholder="Email" />
         <BaseInputText v-model="form.password" type="password" placeholder="Password" />
-        <BaseButton type="submit" label="Enter" @click="goToMain" />
+        <BaseButton type="submit" label="Enter" />
+        {{ authStore.token }}
       </form>
     </div>
   </main>
@@ -50,6 +46,7 @@ function goToMain() {
 }
 
 .auth__caption {
+  max-width: 18.5rem;
   text-align: center;
 }
 
