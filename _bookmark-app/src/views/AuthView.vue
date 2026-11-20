@@ -30,7 +30,7 @@ function onSubmit(event: Event) {
         <BaseInputText v-model="form.email" placeholder="Email" />
         <BaseInputText v-model="form.password" type="password" placeholder="Password" />
         <BaseButton type="submit" label="Enter" />
-        {{ authStore.token }}
+        {{ authStore.getToken }}
       </form>
     </div>
   </main>
