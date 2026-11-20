@@ -7,14 +7,14 @@ import path from 'node:path';
 import { createHash } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 
-// ─── Конфигурация ───────────────────────────────────────────────
+// ─── Configuration ──────────────────────────────────────────────
 const PORT = 3000;
 const JWT_SECRET = 'bookmark-app-secret-key';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const dbPath = path.resolve(__dirname, '..', 'db', 'bookmarks.db');
 
-// ─── База данных SQLite ─────────────────────────────────────────
+// ─── SQLite Database ────────────────────────────────────────────
 const db = new DatabaseSync(dbPath);
 
 db.exec(`
@@ -41,13 +41,13 @@ db.exec(`
   );
 `);
 
-// ─── Express приложение ─────────────────────────────────────────
+// ─── Express Application ────────────────────────────────────────
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 
-// ─── Middleware: проверка JWT токена ─────────────────────────────
+// ─── Middleware: JWT Token Verification ──────────────────────────
 interface JwtPayload {
   id: number;
   email: string;
@@ -62,7 +62,7 @@ function authMiddleware(
   const authHeader = req.headers.authorization;
 
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    res.status(401).json({ error: 'Токен не предоставлен' });
+    res.status(401).json({ error: 'Token not provided' });
     return;
   }
 
@@ -73,11 +73,11 @@ function authMiddleware(
     (req as any).user = decoded;
     next();
   } catch {
-    res.status(401).json({ error: 'Невалидный токен' });
+    res.status(401).json({ error: 'Invalid token' });
   }
 }
 
-// ─── Хеширование пароля (SHA-256) ───────────────────────────────
+// ─── Password Hashing (SHA-256) ─────────────────────────────────
 function hashPassword(password: string): string {
   return createHash('sha256').update(password).digest('hex');
 }
@@ -86,12 +86,12 @@ function hashPassword(password: string): string {
 //  AUTH
 // ═══════════════════════════════════════════════════════════════
 
-// POST /api/auth/login — возвращает JWT токен
+// POST /api/auth/login — returns JWT token
 app.post('/api/auth/login', (req, res) => {
   const { email, password } = req.body;
 
   if (!email || !password) {
-    res.status(400).json({ error: 'Поля email и password обязательны' });
+    res.status(400).json({ error: 'Fields email and password are required' });
     return;
   }
 
@@ -100,15 +100,15 @@ app.post('/api/auth/login', (req, res) => {
   res.json({ token });
 });
 
-// GET /api/auth/profile — профиль текущего пользователя (из БД)
+// GET /api/auth/profile — current user profile (from DB)
 app.get('/api/auth/profile', authMiddleware, (req, res) => {
   const jwtUser = (req as any).user as JwtPayload;
 
-  // Читаем актуальные данные из БД
+  // Read actual data from DB
   const user = db.prepare('SELECT id, email, name FROM users WHERE id = ?').get(jwtUser.id) as any;
 
   if (!user) {
-    res.status(404).json({ error: 'Пользователь не найден' });
+    res.status(404).json({ error: 'User not found' });
     return;
   }
 
@@ -116,12 +116,12 @@ app.get('/api/auth/profile', authMiddleware, (req, res) => {
 });
 
 // ═══════════════════════════════════════════════════════════════
-//  PROFILE (совместимость с оригинальным API курса)
+//  PROFILE (backward compatibility with original course API)
 // ═══════════════════════════════════════════════════════════════
 
-// GET /api/profile — возвращает имя (обратная совместимость)
+// GET /api/profile — returns name (backward compatibility)
 app.get('/api/profile', (req, res) => {
-  // Если есть токен — берём имя из него, иначе отдаём дефолтное
+  // If token is present — take name from it, otherwise return default
   const authHeader = req.headers.authorization;
 
   if (authHeader && authHeader.startsWith('Bearer ')) {
@@ -131,7 +131,7 @@ app.get('/api/profile', (req, res) => {
       res.json({ name: decoded.name });
       return;
     } catch {
-      // Токен невалидный — отдаём дефолтное имя
+      // Invalid token — return default name
     }
   }
 
@@ -142,18 +142,18 @@ app.get('/api/profile', (req, res) => {
 //  CATEGORIES
 // ═══════════════════════════════════════════════════════════════
 
-// GET /api/categories — все категории
+// GET /api/categories — all categories
 app.get('/api/categories', (_req, res) => {
   const rows = db.prepare('SELECT id, name, alias FROM categories').all();
   res.json(rows);
 });
 
-// POST /api/categories — создать категорию
+// POST /api/categories — create category
 app.post('/api/categories', (req, res) => {
   const { name, alias } = req.body;
 
   if (!name || !alias) {
-    res.status(400).json({ error: 'Поля name и alias обязательны' });
+    res.status(400).json({ error: 'Fields name and alias are required' });
     return;
   }
 
@@ -165,13 +165,13 @@ app.post('/api/categories', (req, res) => {
   }
 });
 
-// PUT /api/categories/:id — обновить категорию
+// PUT /api/categories/:id — update category
 app.put('/api/categories/:id', (req, res) => {
   const { id } = req.params;
   const { name, alias } = req.body;
 
   if (!name || !alias) {
-    res.status(400).json({ error: 'Поля name и alias обязательны' });
+    res.status(400).json({ error: 'Fields name and alias are required' });
     return;
   }
 
@@ -179,7 +179,7 @@ app.put('/api/categories/:id', (req, res) => {
   res.json({ id: Number(id), name, alias });
 });
 
-// DELETE /api/categories/:id — удалить категорию (и все её закладки)
+// DELETE /api/categories/:id — delete category (and all its bookmarks)
 app.delete('/api/categories/:id', (req, res) => {
   const { id } = req.params;
   db.prepare('DELETE FROM bookmarks WHERE category_id = ?').run(Number(id));
@@ -191,7 +191,7 @@ app.delete('/api/categories/:id', (req, res) => {
 //  BOOKMARKS
 // ═══════════════════════════════════════════════════════════════
 
-// GET /api/categories/:id/bookmarks — закладки категории (с сортировкой)
+// GET /api/categories/:id/bookmarks — category bookmarks (with sorting)
 app.get('/api/categories/:id/bookmarks', (req, res) => {
   const { id } = req.params;
   const sort = req.query.sort as string | undefined;
@@ -210,16 +210,16 @@ app.get('/api/categories/:id/bookmarks', (req, res) => {
   res.json(rows);
 });
 
-// POST /api/bookmarks — создать закладку (с автоматическим парсингом OpenGraph)
+// POST /api/bookmarks — create bookmark (with automatic OpenGraph parsing)
 app.post('/api/bookmarks', async (req, res) => {
   const { category_id, url } = req.body;
 
   if (!category_id || !url) {
-    res.status(400).json({ error: 'Поля category_id и url обязательны' });
+    res.status(400).json({ error: 'Fields category_id and url are required' });
     return;
   }
 
-  // Парсинг OpenGraph метаданных по ссылке
+  // Parse OpenGraph metadata from the URL
   let title = url;
   let image = '';
 
@@ -230,7 +230,7 @@ app.post('/api/bookmarks', async (req, res) => {
       image = result.ogImage[0].url;
     }
   } catch {
-    // Если не удалось спарсить — оставляем url как title
+    // If parsing failed — keep url as title
   }
 
   try {
@@ -250,14 +250,14 @@ app.post('/api/bookmarks', async (req, res) => {
   }
 });
 
-// DELETE /api/bookmarks/:id — удалить закладку
+// DELETE /api/bookmarks/:id — delete bookmark
 app.delete('/api/bookmarks/:id', (req, res) => {
   const { id } = req.params;
   db.prepare('DELETE FROM bookmarks WHERE id = ?').run(Number(id));
   res.json({ success: true });
 });
 
-// ─── Запуск ─────────────────────────────────────────────────────
+// ─── Start ──────────────────────────────────────────────────────
 app.listen(PORT, () => {
-  console.log(`✅ Bookmark API запущен: http://localhost:${PORT}/api`);
+  console.log(`✅ Bookmark API is running: http://localhost:${PORT}/api`);
 });
