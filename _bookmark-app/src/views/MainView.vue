@@ -1,12 +1,27 @@
 <script setup lang="ts">
+import { useRouter } from 'vue-router';
+import { useAuthStore } from '@/stores/auth.store.ts';
+
+import BaseButton from '@/components/BaseButton.vue';
 import ProfileAvatar from '@/components/ProfileAvatar.vue';
 import CategoriesList from '@/components/CategoriesList.vue';
+
+const router = useRouter();
+const authStore = useAuthStore();
+
+function logout() {
+  authStore.clearToken();
+  router.push({ name: 'auth' });
+}
 </script>
 
 <template>
   <div class="app">
     <aside class="app__aside">
-      <ProfileAvatar />
+      <div>
+        <ProfileAvatar />
+        <BaseButton label="Logout" @click="logout" />
+      </div>
       <CategoriesList />
     </aside>
     <main class="app__main">
@@ -31,10 +46,11 @@ import CategoriesList from '@/components/CategoriesList.vue';
 .app__aside {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
+  padding-block: 4rem;
 }
 
 .profile-avatar {
-  margin-bottom: 2.5rem;
+  margin-bottom: 1.5rem;
 }
 </style>

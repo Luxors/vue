@@ -1,11 +1,13 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { watch, ref } from 'vue';
 
+import { useRouter } from 'vue-router';
 import { useAuthStore } from '@/stores/auth.store';
 
 import BaseInputText from '@/components/BaseInput.vue';
 import BaseButton from '@/components/BaseButton.vue';
 
+const router = useRouter();
 const authStore = useAuthStore();
 
 const form = ref<{
@@ -20,6 +22,15 @@ function onSubmit(event: Event) {
   }
   authStore.login(form.value.email, form.value.password);
 }
+
+watch(
+  () => authStore.getToken,
+  () => {
+    if (authStore.getToken) {
+      router.push({ name: 'main' });
+    }
+  },
+);
 </script>
 
 <template>
@@ -30,7 +41,6 @@ function onSubmit(event: Event) {
         <BaseInputText v-model="form.email" placeholder="Email" />
         <BaseInputText v-model="form.password" type="password" placeholder="Password" />
         <BaseButton type="submit" label="Enter" />
-        {{ authStore.getToken }}
       </form>
     </div>
   </main>

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { onMounted } from 'vue';
+
 import { useCategoryStore } from '@/stores/categories.store.ts';
 
 import IconPlus from '@/components/IconPlus.vue';
@@ -35,7 +36,7 @@ onMounted(async () => {
 .categories-list {
   display: flex;
   flex-direction: column;
-  gap: 2.125rem;
+  gap: 1.5rem;
 }
 
 .categories-list__link {
