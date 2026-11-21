@@ -44,7 +44,7 @@ interface BookmarkRow {
 }
 
 // Extend Express Request to include user from JWT
-declare module 'express' {
+declare module 'express-serve-static-core' {
   interface Request {
     user?: JwtPayload;
   }
@@ -135,7 +135,7 @@ app.get('/api/auth/profile', authMiddleware, (req, res) => {
   const jwtUser = req.user!;
 
   // Read actual data from DB
-  const user = db.prepare('SELECT id, email, name FROM users WHERE id = ?').get(jwtUser.id) as
+  const user = db.prepare('SELECT id, email, name FROM users WHERE email = ?').get(jwtUser.email) as
     UserRow | undefined;
 
   if (!user) {
