@@ -3,7 +3,7 @@ import { defineStore } from 'pinia';
 
 import type { LoginResponse } from '@/types';
 
-import { API_ROUTES, http } from '@/api';
+import { API_ROUTES, client } from '@/api';
 
 const AUTH_TOKEN_KEY = 'auth-token';
 
@@ -29,7 +29,7 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   async function login(email: string, password: string) {
-    const { data } = await http.post<LoginResponse>(API_ROUTES.auth.login, {
+    const { data } = await client().post<LoginResponse>(API_ROUTES.auth.login, {
       email,
       password,
     });

@@ -4,18 +4,18 @@ import { v4 as uuidv4 } from 'uuid';
 
 import type { Category } from '@/types';
 
-import { API_ROUTES, http } from '@/api';
+import { API_ROUTES, client } from '@/api';
 
 export const useCategoryStore = defineStore('categories', () => {
   const categories = ref<Category[]>([]);
 
   async function fetchCategories() {
-    const { data } = await http.get<Category[]>(API_ROUTES.categories);
+    const { data } = await client().get<Category[]>(API_ROUTES.categories);
     categories.value = data;
   }
 
   async function createCategory() {
-    const { data } = await http.post<Category>(API_ROUTES.categories, {
+    const { data } = await client().post<Category>(API_ROUTES.categories, {
       name: 'New Category',
       alias: uuidv4(),
     });
