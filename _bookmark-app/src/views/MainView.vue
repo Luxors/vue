@@ -53,4 +53,8 @@ function logout() {
 .profile-avatar {
   margin-bottom: 1.5rem;
 }
+
+.app__main {
+  padding-block: 4rem;
+}
 </style>
