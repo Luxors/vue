@@ -8,6 +8,7 @@ import { useCategoryStore } from '@/stores/categories.store.ts';
 import { useBookmarkStore } from '@/stores/bookmark.store.ts';
 
 import CategoryHeader from '@/components/CategoryHeader.vue';
+import BookmarkCard from '@/components/BookmarkCard.vue';
 
 const route = useRoute();
 const categoryStore = useCategoryStore();
@@ -32,11 +33,16 @@ watch(
 <template>
   <CategoryHeader v-if="category" :category="category" />
   <div>
-    <ul v-if="bookmarkStore.bookmarks.length">
-      <li v-for="bookmark in bookmarkStore.bookmarks" :key="bookmark.id">
-        <a :href="bookmark.url" target="_blank">{{ bookmark.title }}</a>
-      </li>
-    </ul>
+    <BookmarkCard :id="1" title="string" url="hsafsjfd" />
+    <div v-if="bookmarkStore.bookmarks.length">
+      <BookmarkCard
+        v-for="bookmark in bookmarkStore.bookmarks"
+        :key="bookmark.id"
+        :id="bookmark.id"
+        :title="bookmark.title"
+        :url="bookmark.url"
+      />
+    </div>
   </div>
 </template>
 

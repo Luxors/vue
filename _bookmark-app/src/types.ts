@@ -14,9 +14,9 @@ export interface Category {
 
 export interface Bookmark {
   id: number;
-  category_id: number;
+  category_id?: number;
   url: string;
   title: string;
-  image: string;
-  created_at: Date;
+  image?: string;
+  created_at?: Date;
 }
