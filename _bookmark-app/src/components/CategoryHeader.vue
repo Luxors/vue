@@ -2,6 +2,7 @@
 import { watch, ref } from 'vue';
 import type { Category } from '@/types';
 
+import { useRouter } from 'vue-router';
 import { useCategoryStore } from '@/stores/categories.store.ts';
 
 import BaseButton from '@/components/BaseButton.vue';
@@ -14,6 +15,7 @@ const { category } = defineProps<{
   category: Category;
 }>();
 
+const router = useRouter();
 const categoryStore = useCategoryStore();
 
 const categoryName = ref(category.name);
@@ -26,10 +28,15 @@ function toggleEdit() {
   }
 }
 
-function updateCategoryName() {
+function updateCategory() {
   if (!categoryName.value) return;
   categoryStore.updateCategory(categoryName.value, category.alias, category.id);
   toggleEdit();
+}
+
+function deleteCategory() {
+  categoryStore.deleteCategory(category.id);
+  router.push({ name: 'main' });
 }
 
 watch(
@@ -46,7 +53,7 @@ watch(
       <h1 v-show="!isEdited" class="category-header__title">{{ category.name }}</h1>
       <div v-show="isEdited" class="category-header__form">
         <BaseInput v-model="categoryName" class="category-header__input" />
-        <BaseButton @click="updateCategoryName">
+        <BaseButton @click="updateCategory">
           <template #icon>
             <IconCheck />
           </template>
@@ -54,14 +61,14 @@ watch(
       </div>
     </div>
     <div class="category-header__toolbar">
-      <BaseButton>
-        <template #icon>
-          <IconTrash />
-        </template>
-      </BaseButton>
       <BaseButton @click="toggleEdit">
         <template #icon>
           <IconEdit />
+        </template>
+      </BaseButton>
+      <BaseButton @click="deleteCategory">
+        <template #icon>
+          <IconTrash />
         </template>
       </BaseButton>
     </div>
